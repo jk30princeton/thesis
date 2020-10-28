@@ -97,6 +97,7 @@ func main() {
 
 	//log.Println("server started")
 	secretMap = make(map[string]string, len(repos.Repositories))
+	indexMap = make(map[string]int, len(repos.Repositories))
 
 	for i := 0; i < len(repos.Repositories); i++ {
 		log.Printf(repos.Repositories[i]["name"])
