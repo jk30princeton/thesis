@@ -1,0 +1,23 @@
+# repos:
+#   - name: "sns-website"
+#     repo: "jk30princeton/static-website-example"
+#     reference: "refs/heads/master"
+#     out: "/var/www/site1"
+#     secret: ""
+#   - name: "test2"
+#     repo: "jk30princeton/static-website-example2"
+#     reference: "refs/heads/master2"
+#     out: "/var/www/site2"
+#     secret: "secret2"
+repos:
+  sns-website:
+  - repo: "jk30princeton/static-website-example"
+    reference: "refs/heads/master"
+    out: "/var/www/site1"
+    secret: ""
+  website2:
+  - repo: "jk30princeton/static-website-example2"
+    reference: "refs/heads/master2"
+    out: "/var/www/site2"
+    secret: "secret2"
+  
