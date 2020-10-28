@@ -33,7 +33,7 @@ func parseYaml(yamlFile []uint8) Repos {
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	pathName := r.URL.Path[1:]
-	payload, err := github.ValidatePayload(r, []byte(secretMap[pathName]))
+	payload, err := github.ValidatePayload(r, []byte(repos[indexMap[pathName]]["secret"]))
 	if err != nil {
 		log.Printf("Error validating request body: err=%s\n", err)
 		return
@@ -93,16 +93,14 @@ func main() {
 		return
 	}
 
-	repos := parseYaml(yamlFile)
+	repos = parseYaml(yamlFile)
 
 	//log.Println("server started")
-	secretMap = make(map[string]string, len(repos.Repositories))
 	indexMap = make(map[string]int, len(repos.Repositories))
 
 	for i := 0; i < len(repos.Repositories); i++ {
 		log.Printf(repos.Repositories[i]["name"])
 		http.HandleFunc("/"+repos.Repositories[i]["name"], handleWebhook)
-		secretMap[repos.Repositories[i]["name"]] = repos.Repositories[i]["secret"]
 		indexMap[repos.Repositories[i]["name"]] = i
 	}
 	log.Fatal(http.ListenAndServe(":8088", nil))
