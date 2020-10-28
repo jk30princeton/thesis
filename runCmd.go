@@ -16,26 +16,49 @@ import (
 )
 
 func main() {
-	// Can set to any directory that has a file called "default.nix"
-	dir := "/Users/josephkim/Documents/Senior2020/deplorable"
+	argLength := len(os.Args[1:])
+	if argLength != 1 {
+		fmt.Println("One argument required!")
+		return
+	}
+	dir := os.Args[1]
+	///////////////////////////
+	//////// Tree call ////////
+	///////////////////////////
+	command1 := exec.Command("cp", "treescript.sh", dir)
+	_, _ = run(command1)
 
-	// Tree call
-	command1 := exec.Command("./treescript.sh", dir)
-	out1, _ := run(command1)
-	paths := parseTree(out1)
+	command2 := exec.Command("./treescript.sh", dir)
+	command2.Dir = "/Users/josephkim/Documents/Senior2020/deplorable"
+	out2, _ := run(command2)
+	paths := parseTree(out2)
+
+	command3 := exec.Command("rm", "treescript.sh", dir)
+	_, _ = run(command3)
+
+	///////////////////////////
+	//////// Linear call //////
+	///////////////////////////
+	// command1 := exec.Command("cp", "linearscript.sh", dir)
+	// _, _ = run(command1)
+
+	// command2 := exec.Command("./linearscript.sh")
+	// command2.Dir = dir
+	// out2, _ := run(command2)
+	// paths2 := parseLinear(out2)
+	// fmt.Println()
+	// fmt.Println(paths2.Size())
+
+	// command3 := exec.Command("rm", "linearscript.sh", dir)
+	// _, _ = run(command3)
 
 	nixStore := getNixStore()
 
-	fmt.Println(nixStore)
+	available := strset.Intersection(paths, nixStore)
 
-	// Linear call
-	command2 := exec.Command("./linearscript.sh", dir)
-	out2, _ := run(command2)
-	paths2 := parseLinear(out2)
-
-	fmt.Println()
-	fmt.Println(paths2.Size())
 	fmt.Println(paths.Size())
+	fmt.Println(nixStore.Size())
+	fmt.Println(available.Size())
 }
 
 func getNixStore() *strset.Set {
