@@ -1,16 +1,12 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
-	"sync"
 
 	"github.com/scylladb/go-set/strset"
 )
@@ -72,22 +68,13 @@ func parseTree(tree string) *strset.Set {
 	return treePaths
 }
 
-func run(cmd *exec.Cmd) (string, error) {
-	var output bytes.Buffer
-	var waitGroup sync.WaitGroup
+func run(cmd *exec.Cmd) string {
+	out, err := cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	stdout, _ := cmd.StdoutPipe()
-	writer := io.MultiWriter(os.Stdout, &output)
-
-	waitGroup.Add(1)
-	go func() {
-		defer waitGroup.Done()
-		io.Copy(writer, stdout)
-	}()
-
-	cmd.Run()
-	waitGroup.Wait()
-	return output.String(), nil
+	return string(out)
 }
 
 // func main() {
@@ -97,43 +84,52 @@ func run(cmd *exec.Cmd) (string, error) {
 // 		return
 // 	}
 // 	dir := os.Args[1]
-// 	///////////////////////////
-// 	//////// Tree call ////////
-// 	///////////////////////////
-// 	command1 := exec.Command("cp", "treescript.sh", dir)
-// 	_, _ = run(command1)
 
-// 	command2 := exec.Command("./treescript.sh", dir)
-// 	command2.Dir = "/Users/josephkim/Documents/Senior2020/deplorable"
-// 	out2, _ := run(command2)
-// 	paths := parseTree(out2)
+///////////////////////////
+//////// Tree call ////////
+///////////////////////////
+// command1 := exec.Command("cp", "treescript.sh", dir)
+// _, _ = run(command1)
 
-// 	command3 := exec.Command("rm", "treescript.sh")
-// 	command3.Dir = dir
-// 	_, _ = run(command3)
+// command2 := exec.Command("./treescript.sh", dir)
+// command2.Dir = "/Users/josephkim/Documents/Senior2020/deplorable"
+// out2, _ := run(command2)
+// paths := parseTree(out2)
 
-// 	///////////////////////////
-// 	//////// Linear call //////
-// 	///////////////////////////
-// 	command1 := exec.Command("cp", "linearscript.sh", dir)
-// 	_, _ = run(command1)
+// command3 := exec.Command("rm", "treescript.sh")
+// command3.Dir = dir
+// _, _ = run(command3)
 
-// 	command2 := exec.Command("./linearscript.sh")
-// 	command2.Dir = dir
-// 	out2, _ := run(command2)
-// 	paths := parseLinear(out2)
+///////////////////////////
+//////// Linear call //////
+///////////////////////////
+// command1 := exec.Command("cp", "linearscript.sh", dir)
+// _, _ = run(command1)
 
-// 	command3 := exec.Command("rm", "linearscript.sh")
-// 	command3.Dir = dir
-// 	_, _ = run(command3)
+// command2 := exec.Command("./linearscript.sh")
+// command2.Dir = dir
+// out2, _ := run(command2)
+// paths := parseLinear(out2)
 
-// 	nixStore := getNixStore()
-// 	builtDerivations := strset.Intersection(paths, nixStore)
-// 	needToBeBuilt := strset.Difference(paths, nixStore)
+// command3 := exec.Command("rm", "linearscript.sh")
+// command3.Dir = dir
+// _, _ = run(command3)
 
-// 	fmt.Println(paths.Size())
-// 	fmt.Println(nixStore.Size())
-// 	fmt.Println(builtDerivations.Size())
-// 	fmt.Println(needToBeBuilt.Size())
-// 	fmt.Println(needToBeBuilt)
+// nixStore := getNixStore()
+// builtDerivations := strset.Intersection(paths, nixStore)
+// needToBeBuilt := strset.Difference(paths, nixStore)
+
+// fmt.Println(paths.Size())
+// fmt.Println(nixStore.Size())
+// fmt.Println(builtDerivations.Size())
+// fmt.Println(needToBeBuilt.Size())
+// fmt.Println(needToBeBuilt)
+
+// 	command := exec.Command("/bin/bash", "-c", "nix show-derivation /nix/store/yfk28ll9iaf4k8k4nic3fhr6jadhxbkn-rust_deplorable-0.1.0.drv", dir)
+// 	// command := exec.Command("/bin/bash", "-c", "echo hi && echo bye", dir)
+// 	out, _ := run(command)
+// 	fmt.Println()
+// 	fmt.Println()
+
+// 	fmt.Printf("%s", out)
 // }

@@ -2,11 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
+	"os/exec"
 	"strings"
 )
 
@@ -14,25 +13,46 @@ type Info struct {
 	InputDerivations map[string][]string `json:"inputDrvs"`
 }
 
+type Derivations map[string]Info
+
 func main() {
-	var fileName string
-	flag.StringVar(&fileName, "f", "", "JSON file to parse.")
-	flag.Parse()
+	// var fileName string
+	// flag.StringVar(&fileName, "f", "", "JSON file to parse.")
+	// flag.Parse()
 
-	if fileName == "" {
-		fmt.Println("Please provide json file by using -f option")
-		return
-	}
+	// if fileName == "" {
+	// 	fmt.Println("Please provide json file by using -f option")
+	// 	return
+	// }
 
-	jsonFile, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		fmt.Printf("Error reading JSON file: %s\n", err)
-		return
-	}
+	// jsonFile, err := ioutil.ReadFile(fileName)
+	// if err != nil {
+	// 	fmt.Printf("Error reading JSON file: %s\n", err)
+	// 	return
+	// }
 
-	type Derivations map[string]Info
+	dir := "/Users/josephkim/Documents/Senior2020/deplorable"
 
-	dec := json.NewDecoder(strings.NewReader(string(jsonFile)))
+	command1 := exec.Command("cp", "linearscript.sh", dir)
+	_, _ = run(command1)
+
+	command2 := exec.Command("./linearscript.sh")
+	command2.Dir = dir
+	out2, _ := run(command2)
+
+	command3 := exec.Command("rm", "linearscript.sh")
+	command3.Dir = dir
+	_, _ = run(command3)
+
+	nixcommand := "nix show-derivation " + out2
+	fmt.Println(nixcommand)
+	command := exec.Command("/bin/bash", "-c", nixcommand, dir)
+	out, _ := run(command)
+	fmt.Println()
+	fmt.Println()
+	fmt.Println(out)
+
+	dec := json.NewDecoder(strings.NewReader((out)))
 	for {
 		var derivation Derivations
 		if err := dec.Decode(&derivation); err == io.EOF {
