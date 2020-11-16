@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/scylladb/go-set/strset"
 )
 
 type Node struct {
@@ -55,7 +57,7 @@ func numChildren(parent *Node) int {
 // 	}
 // }
 
-func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Derivations, depth int) {
+func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Derivations, depth int, nixStore *strset.Set) {
 	fmt.Printf("Depth is %d.\n", depth)
 
 	if len(derivations) == 0 {

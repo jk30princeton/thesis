@@ -43,6 +43,8 @@ func main() {
 	fmt.Println()
 	fmt.Println(out)
 
+	nixStore := getNixStore()
+
 	dec := json.NewDecoder(strings.NewReader((out)))
 	for {
 		var derivation Derivations
