@@ -78,6 +78,7 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 			fmt.Println(derivation)
 			fmt.Println(depth, len(dictionary[parent.derivation].InputDerivations))
 			sum += (1 / depth) / len(dictionary[parent.derivation].InputDerivations)
+			fmt.Println(sum)
 			continue
 		}
 
