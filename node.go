@@ -80,7 +80,7 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 			fmt.Println(1.0 / depth)
 
 			sum = sum + float64(1.0/depth)/float64(len(dictionary[parent.derivation].InputDerivations))
-			fmt.Println(sum, float((1/depth))/float64(len(dictionary[parent.derivation].InputDerivations)))
+			fmt.Println(sum, float64((1/depth))/float64(len(dictionary[parent.derivation].InputDerivations)))
 			continue
 		}
 
