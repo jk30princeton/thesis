@@ -63,6 +63,11 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 		fmt.Println()
 		return
 	}
+	if depth == 5 {
+		fmt.Println("Depth is too deep")
+		fmt.Println()
+		return
+	}
 
 	for derivation := range derivations {
 		node := newNode(derivation)
