@@ -37,7 +37,8 @@ func main() {
 	fmt.Println(out2)
 
 	nixcommand := "nix show-derivation -r " + out2
-	command := exec.Command("/bin/bash", "-c", nixcommand, dir)
+	command := exec.Command("/bin/bash", "-c", nixcommand)
+	command.Dir = dir
 	out := run(command)
 	fmt.Println()
 	fmt.Println()
