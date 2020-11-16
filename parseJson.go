@@ -60,8 +60,9 @@ func main() {
 		//}
 
 		rootnode := newNode(out2)
-		recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1, nixStore)
+		score := recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1, nixStore)
 		fmt.Println(rootnode)
+		fmt.Println(score)
 
 		// for k, v := range derivation {
 		// 	rootnode := newNode(k)
