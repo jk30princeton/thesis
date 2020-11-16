@@ -70,7 +70,7 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 		fmt.Println()
 		return 0
 	}
-	sum := 0
+	sum := 0.0
 	for derivation := range derivations {
 		node := newNode(derivation)
 		addChild(parent, node)
