@@ -60,7 +60,7 @@ func main() {
 		//}
 
 		rootnode := newNode(out2)
-		recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1)
+		recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1, nixStore)
 		fmt.Println(rootnode)
 
 		// for k, v := range derivation {
