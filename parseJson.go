@@ -16,38 +16,29 @@ type Info struct {
 type Derivations map[string]Info
 
 func main() {
-	// var fileName string
-	// flag.StringVar(&fileName, "f", "", "JSON file to parse.")
-	// flag.Parse()
+	dir := "/home/joseph/Documents/code"
 
-	// if fileName == "" {
-	// 	fmt.Println("Please provide json file by using -f option")
-	// 	return
-	// }
+	// command1 := exec.Command("cp", "linearscript.sh", dir)
+	// run(command1)
 
-	// jsonFile, err := ioutil.ReadFile(fileName)
-	// if err != nil {
-	// 	fmt.Printf("Error reading JSON file: %s\n", err)
-	// 	return
-	// }
+	// command2 := exec.Command("./linearscript.sh")
+	// command2.Dir = dir
+	// out2 := strings.TrimSpace(run(command2))
 
-	dir := "/Users/josephkim/Documents/Senior2020/deplorable"
+	// fmt.Println(out2)
 
-	command1 := exec.Command("cp", "linearscript.sh", dir)
-	_, _ = run(command1)
+	// command3 := exec.Command("rm", "linearscript.sh")
+	// command3.Dir = dir
+	// run(command3)
 
-	command2 := exec.Command("./linearscript.sh")
+	command2 := exec.Command("/bin/bash", "-c", "nix-instantiate default.nix")
 	command2.Dir = dir
-	out2, _ := run(command2)
+	out2 := strings.TrimSpace(run(command2))
+	fmt.Println(out2)
 
-	command3 := exec.Command("rm", "linearscript.sh")
-	command3.Dir = dir
-	_, _ = run(command3)
-
-	nixcommand := "nix show-derivation " + out2
-	fmt.Println(nixcommand)
+	nixcommand := "nix show-derivation -r " + out2
 	command := exec.Command("/bin/bash", "-c", nixcommand, dir)
-	out, _ := run(command)
+	out := run(command)
 	fmt.Println()
 	fmt.Println()
 	fmt.Println(out)
@@ -58,20 +49,26 @@ func main() {
 		if err := dec.Decode(&derivation); err == io.EOF {
 			break
 		} else if err != nil {
+			fmt.Println("hi")
 			log.Fatal(err)
 		}
 
-		for k, v := range derivation {
-			rootnode := newNode(k)
-			recursiveAdd(rootnode, v.InputDerivations)
-			// fmt.Printf("Derivation is %s.\n", k)
+		//for k := range derivation["/nix/store/idq9v7p2bp2x5pnxg2rzz0lbw8hvx6hl-rust_deplorable-0.1.0.drv"].InputDerivations {
+		//	fmt.Println(k)
+		//}
 
-			// fmt.Println("Input derivations are:")
-			// fmt.Println("%T", v.InputDerivations)
-			// for key, value := range v.InputDerivations {
-			// 	fmt.Printf("%T, %T", key, value)
-			// 	fmt.Printf("%s\n", key)
-			// }
-		}
+		rootnode := newNode(out2)
+		recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1)
+		fmt.Println(rootnode)
+
+		// for k, v := range derivation {
+		// 	rootnode := newNode(k)
+		// 	recursiveAdd(rootnode, v.InputDerivations, dir, 1)
+		// 	fmt.Printf("Root deriv is %s.\n", k)
+
+		// 	fmt.Println(rootnode)
+
+		// 	fmt.Println(k, v)
+		// }
 	}
 }

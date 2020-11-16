@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -69,12 +70,24 @@ func parseTree(tree string) *strset.Set {
 }
 
 func run(cmd *exec.Cmd) string {
-	out, err := cmd.Output()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// out, err := cmd.Output()
+	// if err != nil {
+	// 	fmt.Println(fmt.Sprint(err))
+	// 	log.Fatal(err)
+	// }
 
-	return string(out)
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
+		return ""
+	}
+	fmt.Println("Result: " + out.String())
+
+	return out.String()
 }
 
 // func main() {

@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Node struct {
 	derivation string
@@ -21,9 +23,52 @@ func numChildren(parent *Node) int {
 	return len(parent.children)
 }
 
-func recursiveAdd(parent *Node, derivations map[string][]string) {
+// func recursiveAdd(parent *Node, derivations map[string][]string, dir string, depth int) {
+// 	fmt.Printf("Depth is %d.\n", depth)
+// 	if len(derivations) == 0 {
+// 		fmt.Println("no more input derivations")
+// 		fmt.Println()
+// 		return
+// 	}
+// 	nixcommand := "nix show-derivation "
+
+// 	for derivation := range derivations {
+// 		command := exec.Command("/bin/bash", "-c", nixcommand+derivation, dir)
+// 		out := run(command)
+
+// 		dec := json.NewDecoder(strings.NewReader((out)))
+// 		for {
+// 			var derivation Derivations
+// 			if err := dec.Decode(&derivation); err == io.EOF {
+// 				break
+// 			} else if err != nil {
+// 				log.Fatal(err)
+// 			}
+
+// 			for deriv, v := range derivation {
+// 				fmt.Println(deriv)
+// 				node := newNode(deriv)
+// 				addChild(parent, node)
+// 				recursiveAdd(node, v.InputDerivations, dir, depth+1)
+// 			}
+// 		}
+// 	}
+// }
+
+func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Derivations, depth int) {
+	fmt.Printf("Depth is %d.\n", depth)
+
+	if len(derivations) == 0 {
+		fmt.Println("no more input derivations")
+		fmt.Println()
+		return
+	}
+
 	for derivation := range derivations {
-		fmt.Println(derivation)
+		node := newNode(derivation)
+		addChild(parent, node)
+
+		recursiveAdd(node, dictionary[derivation].InputDerivations, dictionary, depth+1)
 	}
 }
 
