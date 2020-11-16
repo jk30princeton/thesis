@@ -77,7 +77,7 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 		if nixStore.Has(derivation) {
 			fmt.Println(derivation)
 			fmt.Println(depth, len(dictionary[parent.derivation].InputDerivations))
-			sum = sum + (1/depth)/len(dictionary[parent.derivation].InputDerivations)
+			sum = sum + (1.0/depth)/len(dictionary[parent.derivation].InputDerivations)
 			fmt.Println(sum, (1/depth)/len(dictionary[parent.derivation].InputDerivations))
 			continue
 		}
