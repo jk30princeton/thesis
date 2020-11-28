@@ -16,6 +16,7 @@ type Info struct {
 type Derivations map[string]Info
 
 func main() {
+	fmt.Println("hello")
 	dir := "/home/joseph/Documents/sns_website"
 
 	// command1 := exec.Command("cp", "linearscript.sh", dir)
