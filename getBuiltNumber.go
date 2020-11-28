@@ -85,8 +85,6 @@ func run(cmd *exec.Cmd) string {
 		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		return ""
 	}
-	fmt.Println("Result: " + out.String())
-
 	return out.String()
 }
 

@@ -57,8 +57,9 @@ func numChildren(parent *Node) int {
 // 	}
 // }
 
-func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Derivations, depth int, nixStore *strset.Set) float64 {
+func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Derivations, depth int, score float64, nixStore *strset.Set) float64 {
 	fmt.Printf("Depth is %d.\n", depth)
+	fmt.Printf("Score is %d.\n", score)
 
 	if len(derivations) == 0 {
 		fmt.Println("no more input derivations")
@@ -79,7 +80,7 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 			continue
 		}
 
-		sum += recursiveAdd(node, dictionary[derivation].InputDerivations, dictionary, depth+1, nixStore)
+		sum += recursiveAdd(node, dictionary[derivation].InputDerivations, dictionary, depth+1, score/float64(len(dictionary[derivation].InputDerivations)), nixStore)
 	}
 	return sum
 }

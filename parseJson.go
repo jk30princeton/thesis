@@ -61,7 +61,7 @@ func main() {
 		//}
 
 		rootnode := newNode(out2)
-		score := recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1, nixStore)
+		score := recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out2].InputDerivations)), nixStore)
 		fmt.Println(rootnode)
 		fmt.Println(score)
 
