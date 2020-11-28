@@ -61,23 +61,24 @@ func recursiveAdd(parent *Node, derivations map[string][]string, dictionary Deri
 	fmt.Printf("Depth is %d.\n", depth)
 	fmt.Printf("Score is %d.\n", score)
 
-	if len(derivations) == 0 {
-		fmt.Println("no more input derivations")
-		fmt.Println()
-		return 0.0
-	}
-	if depth == 5 {
+	if depth == 10 {
 		fmt.Println("Depth is too deep")
 		fmt.Println()
 		return 0.0
 	}
+
+	if len(derivations) == 0 {
+		fmt.Println("No more input derivations")
+		fmt.Println()
+		return 0.0
+	}
+
 	sum := 0.0
 	for derivation := range derivations {
 		node := newNode(derivation)
 		addChild(parent, node)
 		if nixStore.Has(derivation) {
 			sum = sum + score
-			fmt.Println(sum)
 			continue
 		}
 
