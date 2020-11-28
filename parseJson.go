@@ -16,7 +16,7 @@ type Info struct {
 type Derivations map[string]Info
 
 func main() {
-	dir := "/home/joseph/Documents/sns_website"
+	dir := "/home/joseph/Documents/code/thesis"
 
 	// command1 := exec.Command("cp", "linearscript.sh", dir)
 	// run(command1)
@@ -56,23 +56,9 @@ func main() {
 			log.Fatal(err)
 		}
 
-		//for k := range derivation["/nix/store/idq9v7p2bp2x5pnxg2rzz0lbw8hvx6hl-rust_deplorable-0.1.0.drv"].InputDerivations {
-		//	fmt.Println(k)
-		//}
-
 		rootnode := newNode(out2)
 		score := recursiveAdd(rootnode, derivation[out2].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out2].InputDerivations)), nixStore)
 		fmt.Println(rootnode)
 		fmt.Println(score)
-
-		// for k, v := range derivation {
-		// 	rootnode := newNode(k)
-		// 	recursiveAdd(rootnode, v.InputDerivations, dir, 1)
-		// 	fmt.Printf("Root deriv is %s.\n", k)
-
-		// 	fmt.Println(rootnode)
-
-		// 	fmt.Println(k, v)
-		// }
 	}
 }
