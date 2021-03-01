@@ -22,7 +22,6 @@ func main() {
 	// }
 
 	command2 := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
-	command2.Dir = dir
 	out2 := strings.TrimSpace(run(command2))
 	fmt.Println(out2)
 
