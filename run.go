@@ -21,10 +21,13 @@ func main() {
 	// 	fmt.Println(i, s)
 	// }
 
-	command2 := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
-	out2 := strings.TrimSpace(run(command2))
-	fmt.Println(out2)
+	// command2 := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
+	// out2 := strings.TrimSpace(run(command2))
+	// fmt.Println(out2)
 
+	command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A firefox)")
+	out3 := strings.TrimSpace(run(command3))
+	fmt.Println(out3)
 	// set1 := strset.New()
 	// set1.Add("Hello")
 
