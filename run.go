@@ -21,7 +21,7 @@ func main() {
 	nixStore := getNixStore()
 
 	for i, s := range split {
-		if i == 1 {
+		if i == 2 {
 			fmt.Println("finished")
 			break
 		}
@@ -47,7 +47,7 @@ func main() {
 			}
 			fmt.Println(derivation)
 			score := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore)
-			fmt.Println("Score is %f", score)
+			fmt.Println("Score is ", score)
 		}
 		fmt.Println(i, s)
 	}
