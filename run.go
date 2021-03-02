@@ -21,7 +21,7 @@ func main() {
 	nixStore := getNixStore()
 
 	for i, s := range split {
-		if i == 2 {
+		if i == 10 {
 			fmt.Println("finished")
 			break
 		}
