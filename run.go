@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	content, err := ioutil.ReadFile("/Users/josephkim/Downloads/names.txt")
+	content, err := ioutil.ReadFile("/home/joseph/Downloads/names.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
