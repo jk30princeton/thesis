@@ -45,7 +45,6 @@ func main() {
 				fmt.Println("There was some error.")
 				log.Fatal(err)
 			}
-			fmt.Println(derivation)
 			score := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore)
 			fmt.Println("Score is ", score)
 		}
