@@ -35,10 +35,10 @@ func main() {
 		fmt.Println(i, s)
 	}
 
-	nixStore := getNixStore()
+	// nixStore := getNixStore()
 
-	var derivation [1]string
-	derivation[0] = 
+	// var derivation [1]string
+	// derivation[0] =
 
 	// set1 := strset.New()
 	// set1.Add("Hello")
