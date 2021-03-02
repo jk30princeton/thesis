@@ -49,6 +49,7 @@ func main() {
 			fmt.Println("Score is ", score)
 		}
 		fmt.Println(i, s)
+		fmt.Println()
 	}
 
 	// set1 := strset.New()
