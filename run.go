@@ -56,7 +56,7 @@ func main() {
 		fmt.Println()
 		fmt.Println(derivation[out].InputDerivations)
 		fmt.Println()
-		fmt.Println(derivation[out].InputDerivations[0])
+		fmt.Println(derivation[out].InputDerivations["0"])
 	}
 
 	// nixStore := getNixStore()
