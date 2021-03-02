@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"log"
 	"os/exec"
 	"strings"
 )
@@ -38,21 +41,19 @@ func main() {
 	fmt.Println(out)
 
 	command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
-	fmt.Println(command3)
 	out3 := strings.TrimSpace(run(command3))
-	fmt.Println(out3)
 
-	// dec := json.NewDecoder(strings.NewReader((out3)))
-	// for {
-	// 	var derivation Derivations
-	// 	if err := dec.Decode(&derivation); err == io.EOF {
-	// 		break
-	// 	} else if err != nil {
-	// 		fmt.Println("There was some error.")
-	// 		log.Fatal(err)
-	// 	}
-	// }
-	// fmt.Println(derivation)
+	dec := json.NewDecoder(strings.NewReader((out3)))
+	for {
+		var derivation Derivations
+		if err := dec.Decode(&derivation); err == io.EOF {
+			break
+		} else if err != nil {
+			fmt.Println("There was some error.")
+			log.Fatal(err)
+		}
+	}
+	fmt.Println(derivation)
 
 	// nixStore := getNixStore()
 
