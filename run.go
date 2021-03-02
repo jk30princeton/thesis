@@ -38,6 +38,7 @@ func main() {
 	fmt.Println(out)
 
 	command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
+	fmt.Println(command3)
 	out3 := strings.TrimSpace(run(command3))
 	fmt.Println(out3)
 
