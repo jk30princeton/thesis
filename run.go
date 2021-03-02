@@ -29,7 +29,7 @@ func main() {
 		if s == "" {
 			continue
 		}
-		command := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
+		command := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A "+s)
 		out := strings.TrimSpace(run(command))
 		fmt.Println(out)
 
