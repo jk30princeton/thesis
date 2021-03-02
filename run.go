@@ -53,6 +53,7 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Println(derivation)
+		fmt.Println()
 		fmt.Println(derivation[out].InputDerivations)
 	}
 
