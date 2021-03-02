@@ -77,6 +77,7 @@ func recursiveAdd(derivations map[string][]string, dictionary Derivations, depth
 	for derivation := range derivations {
 		if nixStore.Has(derivation) {
 			sum = sum + score
+			fmt.Println("Have derivation!")
 			continue
 		}
 
