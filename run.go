@@ -47,7 +47,7 @@ func main() {
 			}
 			fmt.Println(derivation)
 			score := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore)
-			fmt.Println(score)
+			fmt.Println("Score is %f", score)
 		}
 		fmt.Println(i, s)
 	}
