@@ -37,9 +37,9 @@ func main() {
 	out := strings.TrimSpace(run(command))
 	fmt.Println(out)
 
-	// command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
-	// out3 := strings.TrimSpace(run(command3))
-	// fmt.Println(out3)
+	command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
+	out3 := strings.TrimSpace(run(command3))
+	fmt.Println(out3)
 
 	// dec := json.NewDecoder(strings.NewReader((out3)))
 	// for {
