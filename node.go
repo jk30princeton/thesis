@@ -58,8 +58,6 @@ func numChildren(parent *Node) int {
 // }
 
 func recursiveAdd(derivations map[string][]string, dictionary Derivations, depth int, score float64, nixStore *strset.Set) float64 {
-	fmt.Printf("Depth is %d.\n", depth)
-
 	if depth == 10 {
 		fmt.Println("Depth is too deep")
 		fmt.Println()
