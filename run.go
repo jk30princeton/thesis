@@ -52,8 +52,8 @@ func main() {
 			fmt.Println("There was some error.")
 			log.Fatal(err)
 		}
+		fmt.Println(derivation)
 	}
-	fmt.Println(derivation)
 
 	// nixStore := getNixStore()
 
