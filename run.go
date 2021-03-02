@@ -17,28 +17,43 @@ func main() {
 	// command2 := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
 	// out2 := strings.TrimSpace(run(command2))
 	// fmt.Println(out2)
+	// var derivation [1]string
 
-	command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A firefox)")
-	out3 := strings.TrimSpace(run(command3))
-	fmt.Println(out3)
+	// for i, s := range split {
+	// 	if i == 1 {
+	// 		fmt.Println("finished")
+	// 		break
+	// 	}
+	//
+	// 	if s == "" {
+	// 		continue
+	// 	}
+	//	derivation[0] = s
+	//  sum := sum(derivation, )
+	// 	fmt.Println(i, s)
+	// }
 
-	split := strings.Split(out3, "\n")
+	command := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
+	out := strings.TrimSpace(run(command))
+	fmt.Println(out)
 
-	for i, s := range split {
-		if i == 1 {
-			fmt.Println("finished")
-			break
-		}
-		if s == "" {
-			continue
-		}
-		fmt.Println(i, s)
-	}
+	// command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
+	// out3 := strings.TrimSpace(run(command3))
+	// fmt.Println(out3)
+
+	// dec := json.NewDecoder(strings.NewReader((out3)))
+	// for {
+	// 	var derivation Derivations
+	// 	if err := dec.Decode(&derivation); err == io.EOF {
+	// 		break
+	// 	} else if err != nil {
+	// 		fmt.Println("There was some error.")
+	// 		log.Fatal(err)
+	// 	}
+	// }
+	// fmt.Println(derivation)
 
 	// nixStore := getNixStore()
-
-	// var derivation [1]string
-	// derivation[0] =
 
 	// set1 := strset.New()
 	// set1.Add("Hello")
