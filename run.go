@@ -25,11 +25,20 @@ func main() {
 	split := strings.Split(out3, "\n")
 
 	for i, s := range split {
+		if i == 1 {
+			fmt.Println("finished")
+			break
+		}
 		if s == "" {
 			continue
 		}
 		fmt.Println(i, s)
 	}
+
+	nixStore := getNixStore()
+
+	var derivation [1]string
+	derivation[0] = 
 
 	// set1 := strset.New()
 	// set1.Add("Hello")
