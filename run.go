@@ -8,6 +8,8 @@ import (
 	"log"
 	"os/exec"
 	"strings"
+
+	"github.com/scylladb/go-set/strset"
 )
 
 func main() {
@@ -18,7 +20,8 @@ func main() {
 	text := string(content)
 	split := strings.Split(text, "\n")
 
-	nixStore := getNixStore()
+	// nixStore := getNixStore()
+	nixStore := strset.New()
 
 	for i, s := range split {
 		if i == 500 {
