@@ -75,8 +75,6 @@ func recursiveAdd(derivations map[string][]string, dictionary Derivations, depth
 
 	sum := 0.0
 	for derivation := range derivations {
-		node := newNode(derivation)
-		addChild(parent, node)
 		if nixStore.Has(derivation) {
 			sum = sum + score
 			continue
