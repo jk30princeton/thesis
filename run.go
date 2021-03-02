@@ -4,62 +4,53 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os/exec"
 	"strings"
 )
 
 func main() {
-	// content, err := ioutil.ReadFile("/Users/josephkim/Downloads/names.txt")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// text := string(content)
-	// split := strings.Split(text, "\n")
-
-	// command2 := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
-	// out2 := strings.TrimSpace(run(command2))
-	// fmt.Println(out2)
-	// var derivation [1]string
-
-	// for i, s := range split {
-	// 	if i == 1 {
-	// 		fmt.Println("finished")
-	// 		break
-	// 	}
-	//
-	// 	if s == "" {
-	// 		continue
-	// 	}
-	//	derivation[0] = s
-	//  sum := sum(derivation, )
-	// 	fmt.Println(i, s)
-	// }
-
-	command := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
-	out := strings.TrimSpace(run(command))
-	fmt.Println(out)
-
-	command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
-	out3 := strings.TrimSpace(run(command3))
-
-	dec := json.NewDecoder(strings.NewReader((out3)))
-	for {
-		var derivation Derivations
-		if err := dec.Decode(&derivation); err == io.EOF {
-			break
-		} else if err != nil {
-			fmt.Println("There was some error.")
-			log.Fatal(err)
-		}
-		fmt.Println(derivation)
-		fmt.Println()
-		fmt.Println(derivation[out].InputDerivations)
-		fmt.Println()
-		fmt.Println(derivation[out].InputDerivations["0"])
+	content, err := ioutil.ReadFile("/Users/josephkim/Downloads/names.txt")
+	if err != nil {
+		log.Fatal(err)
 	}
+	text := string(content)
+	split := strings.Split(text, "\n")
 
-	// nixStore := getNixStore()
+	nixStore := getNixStore()
+
+	for i, s := range split {
+		if i == 1 {
+			fmt.Println("finished")
+			break
+		}
+
+		if s == "" {
+			continue
+		}
+		command := exec.Command("/bin/bash", "-c", "nix-instantiate '<nixpkgs>' -A firefox")
+		out := strings.TrimSpace(run(command))
+		fmt.Println(out)
+
+		command3 := exec.Command("/bin/bash", "-c", "nix show-derivation -r "+out)
+		out3 := strings.TrimSpace(run(command3))
+
+		dec := json.NewDecoder(strings.NewReader((out3)))
+		for {
+			var derivation Derivations
+			if err := dec.Decode(&derivation); err == io.EOF {
+				break
+			} else if err != nil {
+				fmt.Println("There was some error.")
+				log.Fatal(err)
+			}
+			fmt.Println(derivation)
+			score := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore)
+			fmt.Println(score)
+		}
+		fmt.Println(i, s)
+	}
 
 	// set1 := strset.New()
 	// set1.Add("Hello")
