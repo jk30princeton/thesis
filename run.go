@@ -69,7 +69,7 @@ func main() {
 	// Build all the packages by assigning to the largest
 	
 	for i, s := range split {
-		if i == 1 {
+		if i == 10 {
 			fmt.Println("finished")
 			break
 		}
