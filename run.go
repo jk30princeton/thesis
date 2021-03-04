@@ -9,6 +9,7 @@ import (
 	"math/rand"
 	"os/exec"
 	"strings"
+	"time"
 
 	"github.com/scylladb/go-set/strset"
 )
@@ -34,7 +35,7 @@ func main() {
 
 	nixStore1 := strset.New()
 	for i := 0; i < 3; i++ {
-		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A " + split[i] ")")
+		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
 		for j := range out3 {
 			if out3[j] == "" {
@@ -45,7 +46,7 @@ func main() {
 	}
 	nixStore2 := strset.New()
 	for i := 3; i < 6; i++ {
-		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A " + split[i] ")")
+		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
 		for i := range out3 {
 			if out3[j] == "" {
@@ -56,7 +57,7 @@ func main() {
 	}
 	nixStore3 := strset.New()
 	for i := 6; i < 9; i++ {
-		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A " + split[i] ")")
+		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
 		for j := range out3 {
 			if out3[j] == "" {
@@ -67,7 +68,7 @@ func main() {
 	}
 
 	// Build all the packages by assigning to the largest
-	
+
 	for i, s := range split {
 		if i == 10 {
 			fmt.Println("finished")
