@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/scylladb/go-set/strset"
 )
 
@@ -59,14 +57,10 @@ func numChildren(parent *Node) int {
 
 func recursiveAdd(derivations map[string][]string, dictionary Derivations, depth int, score float64, nixStore *strset.Set) float64 {
 	if depth == 10 {
-		fmt.Println("Depth is too deep")
-		fmt.Println()
 		return 0.0
 	}
 
 	if len(derivations) == 0 {
-		fmt.Println("No more input derivations")
-		fmt.Println()
 		return 0.0
 	}
 

@@ -6,11 +6,18 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os/exec"
 	"strings"
 
 	"github.com/scylladb/go-set/strset"
 )
+
+type Info struct {
+	InputDerivations map[string][]string `json:"inputDrvs"`
+}
+
+type Derivations map[string]Info
 
 func main() {
 	content, err := ioutil.ReadFile("/home/joseph/Downloads/names.txt")
@@ -19,14 +26,55 @@ func main() {
 	}
 	text := string(content)
 	split := strings.Split(text, "\n")
+	rand.Seed(time.Now().UnixNano())
+	for i := len(split) - 1; i > 0; i-- { // Fisher–Yates shuffle
+		j := rand.Intn(i + 1)
+		split[i], split[j] = split[j], split[i]
+	}
 
-	// nixStore := getNixStore()
-	nixStore := strset.New()
+	nixStore1 := strset.New()
+	for i := 0; i < 3; i++ {
+		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A " + split[i] ")")
+		out3 := strings.TrimSpace(run(command3))
+		for j := range out3 {
+			if out3[j] == "" {
+				continue
+			}
+			nixStore1.Add(out3[j])
+		}
+	}
+	nixStore2 := strset.New()
+	for i := 3; i < 6; i++ {
+		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A " + split[i] ")")
+		out3 := strings.TrimSpace(run(command3))
+		for i := range out3 {
+			if out3[j] == "" {
+				continue
+			}
+			nixStore2.Add(out3[j])
+		}
+	}
+	nixStore3 := strset.New()
+	for i := 6; i < 9; i++ {
+		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A " + split[i] ")")
+		out3 := strings.TrimSpace(run(command3))
+		for j := range out3 {
+			if out3[j] == "" {
+				continue
+			}
+			nixStore3.Add(out3[j])
+		}
+	}
 
+	// Build all the packages by assigning to the largest
+	
 	for i, s := range split {
 		if i == 500 {
 			fmt.Println("finished")
 			break
+		}
+		if i < 9 {
+			continue
 		}
 
 		if s == "" {
@@ -48,23 +96,27 @@ func main() {
 				fmt.Println("There was some error.")
 				log.Fatal(err)
 			}
-			score := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore)
-			fmt.Println("Score is ", score)
-			fmt.Println(nixStore.Size())
+			score1 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore1)
+			score2 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore2)
+			score3 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore3)
+			builder := 0
+
+			if score1 >= score2 && score1 >= score3 {
+				score := score1
+				builder = 1
+			}
+			if score2 >= score1 && score2 >= score3 {
+				score := score2
+				builder = 2
+			}
+			if score3 >= score1 && score3 >= score2 {
+				score := score3
+				builder = 3
+			}
+
+			fmt.Println("Score is " + score + ". Assigned to builder " + builder)
 		}
 		fmt.Println(i, s)
 		fmt.Println()
 	}
-
-	// set1 := strset.New()
-	// set1.Add("Hello")
-
-	// set2 := strset.New()
-	// set2.Add("Hello")
-	// set2.Add("World")
-
-	// set3 := strset.Union(set1, set2)
-	// set3.Add("Hello")
-	// fmt.Println(set3)
-	// fmt.Println(set3.Has("Hello"))
 }
