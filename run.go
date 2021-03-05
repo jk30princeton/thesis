@@ -76,10 +76,10 @@ func main() {
 	// Build all the packages by assigning to the largest
 
 	for i, s := range split {
-		if i == 12 {
-			fmt.Println("finished")
-			break
-		}
+		// if i == 17000 {
+		// 	fmt.Println("finished")
+		// 	break
+		// }
 		if i < 9 {
 			continue
 		}
@@ -124,6 +124,34 @@ func main() {
 
 			fmt.Printf("Score is %f\n", score)
 			fmt.Printf("Assigned to builder %d\n", builder)
+
+			command3 := exec.Command("/bin/bash", "-c", "nix-store -qR "+out)
+			out3 := strings.TrimSpace(run(command3))
+			split := strings.Split(out3, "\n")
+			if builder == 1 {
+				for j := range split {
+					if split[j] == "" {
+						continue
+					}
+					nixStore1.Add(split[j])
+				}
+			}
+			else if builder == 2 {
+				for j := range split {
+					if split[j] == "" {
+						continue
+					}
+					nixStore2.Add(split[j])
+				}
+			}
+			else {
+				for j := range split {
+					if split[j] == "" {
+						continue
+					}
+					nixStore3.Add(split[j])
+				}
+			}
 		}
 		fmt.Println(i, s)
 		fmt.Println()
