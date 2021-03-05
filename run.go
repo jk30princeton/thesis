@@ -122,8 +122,8 @@ func main() {
 				builder = 3
 			}
 
-			fmt.Println("Score is " + score)
-			fmt.Println("Assigned to builder " + builder)
+			fmt.Printf("Score is %f\n", score)
+			fmt.Printf("Assigned to builder %d\n", builder)
 		}
 		fmt.Println(i, s)
 		fmt.Println()
