@@ -163,4 +163,7 @@ func main() {
 		fmt.Println(i, s)
 		fmt.Println()
 	}
+	fmt.Println(nixStore1BuildList)
+	fmt.Println(nixStore2BuildList)
+	fmt.Println(nixStore3BuildList)
 }
