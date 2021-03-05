@@ -107,17 +107,17 @@ func main() {
 			score2 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore2)
 			score3 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore3)
 			builder := 0
-
+			score := 0
 			if score1 >= score2 && score1 >= score3 {
-				score := score1
+				score = score1
 				builder = 1
 			}
 			if score2 >= score1 && score2 >= score3 {
-				score := score2
+				score = score2
 				builder = 2
 			}
 			if score3 >= score1 && score3 >= score2 {
-				score := score3
+				score = score3
 				builder = 3
 			}
 
