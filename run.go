@@ -106,6 +106,7 @@ func main() {
 			score1 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore1)
 			score2 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore2)
 			score3 := recursiveAdd(derivation[out].InputDerivations, derivation, 1, 1.0/float64(len(derivation[out].InputDerivations)), nixStore3)
+			fmt.Println(score1, score2, score3)
 			builder := 0
 			score := 0.0
 			if score1 >= score2 && score1 >= score3 {
@@ -121,7 +122,8 @@ func main() {
 				builder = 3
 			}
 
-			fmt.Println("Score is %f. Assigned to builder "+string(builder), score)
+			fmt.Println("Score is %f.", score)
+			fmt.Println("Assigned to builder " + string(builder))
 		}
 		fmt.Println(i, s)
 		fmt.Println()
