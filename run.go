@@ -140,8 +140,7 @@ func main() {
 					}
 					nixStore1.Add(split[j])
 				}
-			}
-			else if builder == 2 {
+			} else if builder == 2 {
 				nixStore2BuildList = append(nixStore2BuildList, out)
 				for j := range split {
 					if split[j] == "" {
@@ -149,8 +148,7 @@ func main() {
 					}
 					nixStore2.Add(split[j])
 				}
-			}
-			else if builder == 3 {
+			} else if builder == 3 {
 				nixStore3BuildList = append(nixStore3BuildList, out)
 				for j := range split {
 					if split[j] == "" {
