@@ -37,33 +37,39 @@ func main() {
 	for i := 0; i < 3; i++ {
 		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
-		for j := range out3 {
-			if out3[j] == "" {
+		split := strings.Split(out3, "\n")
+
+		for j := range split {
+			if split[j] == "" {
 				continue
 			}
-			nixStore1.Add(out3[j])
+			nixStore1.Add(split[j])
 		}
 	}
 	nixStore2 := strset.New()
 	for i := 3; i < 6; i++ {
 		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
-		for i := range out3 {
-			if out3[j] == "" {
+		split := strings.Split(out3, "\n")
+
+		for j := range split {
+			if split[j] == "" {
 				continue
 			}
-			nixStore2.Add(out3[j])
+			nixStore2.Add(split[j])
 		}
 	}
 	nixStore3 := strset.New()
 	for i := 6; i < 9; i++ {
 		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
-		for j := range out3 {
-			if out3[j] == "" {
+		split := strings.Split(out3, "\n")
+
+		for j := range split {
+			if split[j] == "" {
 				continue
 			}
-			nixStore3.Add(out3[j])
+			nixStore3.Add(split[j])
 		}
 	}
 
