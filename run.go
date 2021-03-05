@@ -34,6 +34,8 @@ func main() {
 	}
 
 	nixStore1 := strset.New()
+	var nixStore1BuildList []string
+
 	for i := 0; i < 3; i++ {
 		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
@@ -47,6 +49,7 @@ func main() {
 		}
 	}
 	nixStore2 := strset.New()
+	var nixStore2BuildList []string
 	for i := 3; i < 6; i++ {
 		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
@@ -60,6 +63,7 @@ func main() {
 		}
 	}
 	nixStore3 := strset.New()
+	var nixStore3BuildList []string
 	for i := 6; i < 9; i++ {
 		command3 := exec.Command("/bin/bash", "-c", "nix-store -qR $(nix-instantiate '<nixpkgs>' -A "+split[i]+")")
 		out3 := strings.TrimSpace(run(command3))
@@ -129,6 +133,7 @@ func main() {
 			out3 := strings.TrimSpace(run(command3))
 			split := strings.Split(out3, "\n")
 			if builder == 1 {
+				nixStore1BuildList = append(nixStore1BuildList, out)
 				for j := range split {
 					if split[j] == "" {
 						continue
@@ -137,6 +142,7 @@ func main() {
 				}
 			}
 			else if builder == 2 {
+				nixStore2BuildList = append(nixStore2BuildList, out)
 				for j := range split {
 					if split[j] == "" {
 						continue
@@ -144,7 +150,8 @@ func main() {
 					nixStore2.Add(split[j])
 				}
 			}
-			else {
+			else if builder == 3 {
+				nixStore3BuildList = append(nixStore3BuildList, out)
 				for j := range split {
 					if split[j] == "" {
 						continue
